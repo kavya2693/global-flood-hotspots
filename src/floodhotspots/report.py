@@ -41,9 +41,30 @@ def mm_to_cm(value) -> str:
 
 
 def _link(text: str, url) -> str:
+    """No text means no figure, and a link wrapped around nothing is worse than
+    a blank cell — it implies a source for a number that was never published."""
+    if not text:
+        return ""
     if not isinstance(url, str) or not url.strip():
         return text
     return f"[{text}]({url.strip()})"
+
+
+def _area(value) -> str:
+    """Keep the decimal on small extents. Dubai's 23.8 km2 rounded to 24 loses
+    the only precision the single measured UAE figure has."""
+    number = pd.to_numeric(value, errors="coerce")
+    if pd.isna(number):
+        return ""
+    return f"{number:,.1f}" if number < 100 else f"{number:,.0f}"
+
+
+def _tiered(value, url, tier) -> str:
+    """A figure, its source and its evidence tier travel together or not at all."""
+    text = _link(mm_to_cm(value), url)
+    if text and isinstance(tier, str) and tier.strip():
+        text += f" `{tier.strip()}`"
+    return text
 
 
 def site_profiles(sites: pd.DataFrame, frame: pd.DataFrame) -> str:
@@ -76,21 +97,24 @@ def site_profiles(sites: pd.DataFrame, frame: pd.DataFrame) -> str:
             f"**Exposure.** {_link(f'{int(pd.to_numeric(site['population'], errors='coerce')):,} people', site.get('population_source_url'))} "
             f"over a {pd.to_numeric(site['catchment_area_km2'], errors='coerce'):,.0f} km² catchment.",
             "",
-            "| Event | Dates | Peak 24h rain (cm) | Station | Inundated area (km²) | Area method | Driver | Deaths |",
-            "|---|---|---|---|---|---|---|---|",
+            "| Event | Dates | Peak 24h rain (cm) | Event total (cm) | Station | "
+            "Inundated area (km²) | Area method | Driver | Deaths |",
+            "|---|---|---|---|---|---|---|---|---|",
         ]
         for _, event in events.iterrows():
             area = pd.to_numeric(event["affected_area_km2"], errors="coerce")
             deaths = pd.to_numeric(event["deaths"], errors="coerce")
             lines.append(
-                "| {id} | {start} to {end} | {rain} | {station} | {area} | {method} | {driver} | {deaths} |".format(
+                "| {id} | {start} to {end} | {rain} | {total} | {station} | {area} | "
+                "{method} | {driver} | {deaths} |".format(
                     id=event["event_id"],
                     start=event["start_date"],
                     end=event["end_date"] if isinstance(event["end_date"], str) else "",
-                    rain=_link(mm_to_cm(event["rain_24h_mm"]), event.get("rain_source_url"))
-                    + (f" `{event['rain_tier']}`" if isinstance(event.get("rain_tier"), str) else ""),
+                    rain=_tiered(event["rain_24h_mm"], event.get("rain_source_url"), event.get("rain_tier")),
+                    total=_tiered(event["rain_event_total_mm"], event.get("rain_source_url"),
+                                  event.get("rain_tier")),
                     station=event["rain_station"] if isinstance(event["rain_station"], str) else "",
-                    area=_link(f"{area:,.0f}", event.get("area_source_url")) if not pd.isna(area) else "not published",
+                    area=_link(_area(area), event.get("area_source_url")) or "not published",
                     method=event["area_method"] if isinstance(event["area_method"], str) else "",
                     driver=event["driver"],
                     deaths="" if pd.isna(deaths) else f"{int(deaths):,}",
