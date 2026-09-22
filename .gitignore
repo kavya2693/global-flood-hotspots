@@ -28,8 +28,12 @@ coverage/
 npm-debug.log*
 
 # data / artifacts
-data/raw/
+# data/raw holds the curated, cited tables — they ARE the deliverable and are
+# committed. What the optional fetch scripts download is not.
+data/raw/era5/
+data/raw/dem/
 data/interim/
+data/processed/
 *.db
 *.sqlite3
 mlruns/
