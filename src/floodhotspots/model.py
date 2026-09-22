@@ -31,6 +31,17 @@ from .features import EXPOSURE_FEATURES, NUMERIC_FEATURES, RAINFALL_FEATURES, TA
 
 SEED = 20260922
 
+# Below this many held-out sites there is nothing to cross-validate. Three is
+# already generous; it is set here so the threshold is visible rather than
+# buried in a conditional.
+MIN_SITES_FOR_CV = 3
+
+
+class NotEstimable(RuntimeError):
+    """Raised instead of returning a score that no amount of caveating would
+    make meaningful. A number produced from two observations is not a weak
+    result, it is not a result."""
+
 
 @dataclass
 class Scores:
@@ -103,6 +114,14 @@ def evaluate(
     X = frame[features].astype(float)
     y = frame[TARGET].astype(float)
     groups = frame["site_id"]
+
+    distinct_sites = groups.nunique()
+    if distinct_sites < MIN_SITES_FOR_CV:
+        raise NotEstimable(
+            f"{len(frame)} admissible events across {distinct_sites} site(s). "
+            f"Leave-one-site-out needs at least {MIN_SITES_FOR_CV} sites to produce "
+            "anything worth reading, and no estimator is fitted below that."
+        )
 
     rows, fold_errors = [], []
     splitter = LeaveOneGroupOut()

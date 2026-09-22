@@ -1,0 +1,13 @@
+site,flood type,events,rainfall coverage,extent coverage
+Dubai and Sharjah,urban pluvial,5,0.2,0.2
+Ganges-Brahmaputra delta,riverine or deltaic,5,0.2,0.4
+Mumbai,urban pluvial,5,0.8,0.0
+Jakarta,urban pluvial,5,0.6,0.0
+Mekong delta,riverine or deltaic,2,0.0,0.5
+"Niger-Benue confluence, Lokoja",riverine or deltaic,4,0.0,0.75
+"Houston, Harris County",urban pluvial,5,0.0,0.2
+Ahr valley and Rhine-Meuse,urban pluvial,2,0.5,0.0
+"Rio Grande do Sul, Porto Alegre",riverine or deltaic,2,0.0,0.5
+Fujairah and the east coast,urban pluvial,5,0.2,0.0
+"Lower Indus, Sindh",riverine or deltaic,3,0.0,1.0
+"Middle Yangtze, Wuhan and Poyang",riverine or deltaic,3,0.0,0.3333333333333333

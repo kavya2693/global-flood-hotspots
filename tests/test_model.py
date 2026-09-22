@@ -91,3 +91,19 @@ def test_shuffle_permutes_rather_than_discards():
     table = synthetic()
     scores = evaluate(table, FEATURES, "ridge", "shuffled", shuffle_rainfall=True)
     assert scores.n == len(table)
+
+
+def test_two_observations_produce_a_refusal_rather_than_a_score():
+    """The live dataset hits this path. It must not silently return a number."""
+    import pytest
+
+    from floodhotspots.model import NotEstimable
+
+    table = synthetic(n_sites=2, per_site=1)
+    with pytest.raises(NotEstimable, match="Leave-one-site-out needs at least"):
+        evaluate(table, FEATURES, "ridge", "too small")
+
+
+def test_three_sites_is_enough_to_attempt_a_fit():
+    scores = evaluate(synthetic(n_sites=3, per_site=4), FEATURES, "ridge", "small")
+    assert scores.n == 12

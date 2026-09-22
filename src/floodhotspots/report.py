@@ -15,6 +15,26 @@ from .features import TARGET
 from .schema import TIER_MEANING
 
 
+def markdown_table(frame: pd.DataFrame) -> str:
+    """A GitHub-flavoured table, so the repo does not carry a formatting
+    dependency for the sake of six tables."""
+    if frame.empty:
+        return "_no rows_"
+
+    def cell(value) -> str:
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return ""
+        if isinstance(value, float):
+            return f"{value:.3f}".rstrip("0").rstrip(".")
+        return str(value).replace("|", "\\|")
+
+    header = [str(c) for c in frame.columns]
+    lines = ["| " + " | ".join(header) + " |", "|" + "|".join(["---"] * len(header)) + "|"]
+    for _, row in frame.iterrows():
+        lines.append("| " + " | ".join(cell(row[c]) for c in frame.columns) + " |")
+    return "\n".join(lines)
+
+
 def mm_to_cm(value) -> str:
     number = pd.to_numeric(value, errors="coerce")
     return "" if pd.isna(number) else f"{number / 10:.1f}"
@@ -81,13 +101,13 @@ def site_profiles(sites: pd.DataFrame, frame: pd.DataFrame) -> str:
 
 
 def results_table(scores) -> str:
-    return pd.DataFrame([s.as_row() for s in scores]).to_markdown(index=False)
+    return markdown_table(pd.DataFrame([s.as_row() for s in scores]))
 
 
 def exclusions_table(excluded: pd.DataFrame) -> str:
     if excluded.empty:
         return "No events were excluded."
-    return excluded.to_markdown(index=False)
+    return markdown_table(excluded)
 
 
 def write(path: Path, text: str) -> Path:

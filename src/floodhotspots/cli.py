@@ -12,7 +12,7 @@ from pathlib import Path
 import pandas as pd
 
 from . import features as feat
-from . import io, model, report
+from . import coverage, io, model, report
 from .validate import validate
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -43,24 +43,72 @@ def cmd_features(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_coverage(_: argparse.Namespace) -> int:
+    """The headline result, so it runs before the model and prints first."""
+    sites, events = io.load()
+    REPORTS.mkdir(parents=True, exist_ok=True)
+
+    stats = coverage.pairing_rate(events)
+    print(
+        f"{stats['events']} events across {len(sites)} sites. "
+        f"{stats['with rainfall']} carry a sourced 24h rainfall, "
+        f"{stats['with area']} a sourced inundated area, "
+        f"{stats['paired']} carry both ({stats['pairing_rate']:.1%})."
+    )
+
+    figures = coverage.per_figure(events)
+    by_site = coverage.per_site(events, sites)
+    split = coverage.measurement_split(events, sites)
+    methods = coverage.area_method_mix(events)
+    correlation = coverage.coverage_correlation(events, sites)
+
+    for name, frame in (
+        ("coverage_by_figure", figures),
+        ("coverage_by_site", by_site),
+        ("coverage_measurement_split", split),
+        ("area_methods", methods),
+    ):
+        frame.to_csv(REPORTS / f"{name}.csv", index=False)
+
+    print("\n" + report.markdown_table(figures))
+    print("\n" + report.markdown_table(by_site))
+    print(
+        f"\nRainfall coverage against extent coverage across {correlation['sites']} sites: "
+        f"Spearman {correlation['spearman']:.2f}, p = {correlation['p']:.4f}. "
+        "The two measurements are made in different places."
+    )
+    pd.DataFrame([correlation]).to_csv(REPORTS / "coverage_correlation.csv", index=False)
+    return 0
+
+
 def cmd_model(_: argparse.Namespace) -> int:
     sites, events = io.load()
     frame = feat.build(sites, events)
     table = feat.modelling_table(frame)
-    if len(table) < 20:
-        print(f"warning: only {len(table)} admissible events — every score below is fragile",
-              file=sys.stderr)
-    scores = model.run_all(table)
+    print(f"{len(table)} of {len(frame)} events are admissible for the fit")
+    try:
+        scores = model.run_all(table)
+    except model.NotEstimable as refusal:
+        print(f"\nNo model fitted. {refusal}")
+        print(
+            "This is the project's result, not a failure to reach it. See "
+            "reports/coverage_by_site.csv for where the record breaks."
+        )
+        (REPORTS / "results.md").parent.mkdir(parents=True, exist_ok=True)
+        (REPORTS / "results.md").write_text(
+            f"# Model results\n\nNo model was fitted.\n\n{refusal}\n", encoding="utf-8"
+        )
+        return 0
     REPORTS.mkdir(parents=True, exist_ok=True)
     rows = pd.DataFrame([s.as_row() for s in scores])
     rows.to_csv(REPORTS / "results.csv", index=False)
-    print(rows.to_markdown(index=False))
+    print(report.markdown_table(rows))
 
     available = model.usable_features(table, feat.NUMERIC_FEATURES)
     importance = model.permutation_importance_loso(table, available)
     importance.to_csv(REPORTS / "feature_importance.csv", index=False)
     print("\nPermutation importance on held-out sites:\n")
-    print(importance.to_markdown(index=False))
+    print(report.markdown_table(importance))
     return 0
 
 
@@ -80,7 +128,7 @@ def cmd_report(_: argparse.Namespace) -> int:
 
 
 def cmd_run(args: argparse.Namespace) -> int:
-    for step in (cmd_validate, cmd_features, cmd_model, cmd_report):
+    for step in (cmd_validate, cmd_coverage, cmd_features, cmd_model, cmd_report):
         print(f"\n=== {step.__name__.removeprefix('cmd_')} ===")
         code = step(args)
         if code != 0:
@@ -93,6 +141,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     for name, handler, help_text in (
         ("validate", cmd_validate, "check the committed tables for admissibility problems"),
+        ("coverage", cmd_coverage, "audit what the public record actually contains"),
         ("features", cmd_features, "build the modelling table and the exclusion list"),
         ("model", cmd_model, "run every evaluation arm, leave-one-site-out"),
         ("report", cmd_report, "write the site profiles and exclusion report"),
