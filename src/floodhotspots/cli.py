@@ -56,7 +56,7 @@ def cmd_model(_: argparse.Namespace) -> int:
     rows.to_csv(REPORTS / "results.csv", index=False)
     print(rows.to_markdown(index=False))
 
-    available = [c for c in feat.NUMERIC_FEATURES if c in table.columns]
+    available = model.usable_features(table, feat.NUMERIC_FEATURES)
     importance = model.permutation_importance_loso(table, available)
     importance.to_csv(REPORTS / "feature_importance.csv", index=False)
     print("\nPermutation importance on held-out sites:\n")

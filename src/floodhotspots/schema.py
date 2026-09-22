@@ -26,6 +26,7 @@ BOUNDS = {
     "rain_24h_mm": (1.0, 2000.0),
     "rain_event_total_mm": (1.0, 6000.0),
     "affected_area_km2": (0.1, 500_000.0),
+    "catchment_area_km2": (1.0, 4_000_000.0),
     "people_affected": (1, 200_000_000),
     "deaths": (0, 500_000),
 }
@@ -53,6 +54,7 @@ SITE_COLUMNS = (
     "mechanism",
     "coastal",
     "catchment_area_km2",
+    "catchment_area_source_url",
     "population",
     "population_source_url",
     "mean_elevation_m",
@@ -94,6 +96,7 @@ EVENT_FIGURES = (
 )
 
 SITE_FIGURES = (
+    Figure("catchment_area_km2", "catchment_area_source_url"),
     Figure("population", "population_source_url"),
     Figure("mean_elevation_m", "elevation_source_url"),
 )

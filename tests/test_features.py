@@ -14,6 +14,7 @@ SITE = {
     "site_id": "s1", "site_name": "Somewhere", "country": "Nowhere", "iso3": "NWH",
     "bbox_w": 0.0, "bbox_s": 0.0, "bbox_e": 1.0, "bbox_n": 1.0,
     "mechanism": "riverine", "coastal": 0, "catchment_area_km2": 1000.0,
+    "catchment_area_source_url": "https://e.org/basin",
     "population": 1_000_000, "population_source_url": "https://e.org/p",
     "mean_elevation_m": 40.0, "elevation_source_url": "https://e.org/d",
     "selection_reason": "floods often", "selection_source_url": "https://e.org/s",

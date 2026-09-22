@@ -22,6 +22,7 @@ GOOD_SITE = {
     "mechanism": "arid urban pluvial",
     "coastal": 1,
     "catchment_area_km2": 900.0,
+    "catchment_area_source_url": "https://example.org/basin",
     "population": 3_600_000,
     "population_source_url": "https://example.gov/population",
     "mean_elevation_m": 12.0,

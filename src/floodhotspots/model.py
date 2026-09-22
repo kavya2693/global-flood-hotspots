@@ -138,12 +138,22 @@ def evaluate(
     )
 
 
+def usable_features(table: pd.DataFrame, candidates: list[str]) -> list[str]:
+    """Drop columns nobody published a value for at any site.
+
+    Mean elevation is the live example: it is in the schema, and no source in
+    this dataset states it for any of the twelve sites. Carrying an all-empty
+    column into the imputer produces a constant, not a feature, and sklearn
+    would silently drop it anyway. Dropping it here makes the absence visible."""
+    return [c for c in candidates if c in table.columns and table[c].notna().any()]
+
+
 def run_all(table: pd.DataFrame) -> list[Scores]:
     """The full arm list, including the two arms most likely to embarrass the
     headline: exposure with no rainfall at all, and rainfall shuffled."""
-    available = [c for c in NUMERIC_FEATURES if c in table.columns]
-    exposure_only = [c for c in EXPOSURE_FEATURES if c in table.columns]
-    rainfall_only = [c for c in RAINFALL_FEATURES if c in table.columns]
+    available = usable_features(table, NUMERIC_FEATURES)
+    exposure_only = usable_features(table, EXPOSURE_FEATURES)
+    rainfall_only = usable_features(table, RAINFALL_FEATURES)
 
     return [
         evaluate(table, available, "median", "baseline: site-blind median"),
