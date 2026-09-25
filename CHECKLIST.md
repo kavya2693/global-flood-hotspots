@@ -14,7 +14,7 @@
 - [ ] Dockerfile builds and runs — UNVERIFIED. The Dockerfile is written and CI
       runs the same steps natively, but no Docker daemon was available on this
       machine, so the image has not actually been built. Not assumed to work.
-- [ ] CI workflow green on GitHub
+- [x] CI workflow green on GitHub
 - [x] .env.example present, no real values
 - [x] prepush-scan.sh passes
 - [x] 10+ incremental commits
