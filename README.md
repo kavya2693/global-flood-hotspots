@@ -71,18 +71,18 @@ does not exist.
 | | |
 |---|---|
 | Regions | 12 (10 global, 2 UAE) |
-| Flood events documented, 2000-2025 | 46 |
-| Events with a sourced peak 24-hour rainfall | 11 (24%) |
-| Events with a sourced inundated area | 13 (28%) |
-| **Events with both** | **2 (4.3%)** |
+| Flood events documented, 2000-2025 | 48 |
+| Events with a sourced peak 24-hour rainfall | 12 (25%) |
+| Events with a sourced inundated area | 14 (29%) |
+| **Events with both** | **2 (4.2%)** |
 | Events admissible for a rainfall-to-extent regression | **2** |
 
 Two observations. `floodhotspots model` raises `NotEstimable` and fits nothing,
 because a number produced from two observations is not a weak result, it is not
 a result.
 
-The interesting part is that the 4.3% is not what you get from two independent
-28% and 24% coverages. Independence would predict about 7%, and more importantly
+The interesting part is that the 4.2% is not what you get from two independent
+29% and 25% coverages. Independence would predict about 7%, and more importantly
 it would predict the gaps falling randomly across sites. They do not:
 
 | Site | Flood type | Rainfall coverage | Extent coverage |
@@ -96,29 +96,35 @@ it would predict the gaps falling randomly across sites. They do not:
 | Houston, Harris County | urban pluvial | 0.00 | 0.20 |
 | Mekong delta | deltaic | 0.00 | 0.50 |
 | Rio Grande do Sul | riverine | 0.00 | 0.50 |
-| Middle Yangtze | riverine | 0.00 | 0.33 |
+| Middle Yangtze | riverine | 0.00 | 0.67 |
 | Niger-Benue, Lokoja | riverine | 0.00 | 0.75 |
-| Lower Indus, Sindh | riverine | 0.00 | 1.00 |
+| Lower Indus, Sindh | riverine | 0.20 | 0.60 |
 
 **Spearman rho between a site's rainfall coverage and its extent coverage:
--0.81, p = 0.0013, n = 12 sites.** Strongly negative. A site tends to have one
+-0.76, p = 0.0042, n = 12 sites.** Strongly negative. A site tends to have one
 measurement or the other, and which one it has is predicted by what kind of
 flooding it gets.
 
-Sindh is the clearest case: three events, every one with a satellite-derived
-extent, not one with a sourced 24-hour station rainfall. Mumbai is the exact
-inverse: four of five events with a station rainfall figure, not one with a
-mapped extent, in a city that floods severely every single monsoon.
+Mumbai is the clearest case on one side: four of five events with a station
+rainfall figure, not one with a mapped extent, in a city that floods severely
+every single monsoon. Sindh is the mirror: five events, three with a
+satellite-derived extent, and exactly one with a sourced 24-hour station
+rainfall.
+
+That one Sindh rainfall figure is worth dwelling on, because it belongs to the
+August 2020 Karachi flood — the only event at the site that is urban pluvial
+rather than Indus riverine. The site's single rainfall record is its single city
+flood. The pattern holds inside a site, not only across the twelve.
 
 ### The number that disappoints
 
 The evidence quality is lopsided in the opposite direction to the coverage. Of
-the 13 extents, 11 are tier V1 or V2 — satellite-derived or official. Of the 11
+the 14 extents, 12 are tier V1 or V2 — satellite-derived or official. Of the 12
 rainfall figures, only 3 are. The rainfall record here is mostly newspapers
 quoting a met service, not the met service's own bulletin. Several primary hosts
 (ReliefWeb, UNOSAT, Humanitarian Data Exchange, the NHC report PDFs) refused
 automated retrieval during collection, so figures that certainly exist at V1 are
-carried here at V3 or not at all. The measured 24% rainfall coverage is
+carried here at V3 or not at all. The measured 25% rainfall coverage is
 therefore a floor on what is genuinely public, not a ceiling. That weakens the
 headline claim and is stated here rather than left to a reader to notice.
 
@@ -136,7 +142,7 @@ for any Fujairah east-coast event, including July 2022.
 
 ```
 data/raw/sites.csv     12 regions: bbox, mechanism, exposure, hotspot sub-areas
-data/raw/events.csv    46 events: rainfall, extent, casualties, driver, sources
+data/raw/events.csv    48 events: rainfall, extent, casualties, driver, sources
         |
         v
 validate.py            every figure needs a URL, a tier, and a method.
@@ -186,12 +192,12 @@ in the same row. Evidence tiers: **V1** satellite-derived extent or official
 gauge record, **V2** government or UN agency report, **V3** reputable secondary
 reporting, **I** inferred with a mandatory explanatory note.
 
-Of the 13 extents that exist, the measurement methods do not agree with each
+Of the 14 extents that exist, the measurement methods do not agree with each
 other:
 
 | Measurement method | Events |
 |---|---|
-| Satellite, unspecified sensor | 5 |
+| Satellite, unspecified sensor | 6 |
 | Satellite SAR (Sentinel-1) | 2 |
 | Hydraulic model output | 2 |
 | Government estimate | 1 |
@@ -237,14 +243,14 @@ anything compared against it has to clear that.
 ReliefWeb, UNOSAT, Humanitarian Data Exchange and the NHC tropical cyclone
 report PDFs all refused automated retrieval during collection. Figures that are
 genuinely public are consequently missing or downgraded here. A collection pass
-with working access to those hosts would raise the 24% and might raise the 4.3%.
-The direction of the coverage anti-correlation is unlikely to flip — Sindh's
-absent gauge data is a real absence, not a fetch failure — but its magnitude is
-not firm.
+with working access to those hosts would raise the 25% and might raise the 4.2%.
+The direction of the coverage anti-correlation is unlikely to flip, but its
+magnitude is not firm: a later collection pass over the same sources added two
+Pakistan events and moved rho from -0.81 to -0.76.
 
 Beyond that:
 
-- 46 events is not an exhaustive census. It is what could be documented to this
+- 48 events is not an exhaustive census. It is what could be documented to this
   provenance standard, which under-counts smaller floods everywhere and
   under-counts every flood in the gauge-poor and press-poor regions worst.
 - Reporting bias is not corrected anywhere. An event enters this dataset because
@@ -279,7 +285,7 @@ significant. The thing I nearly filed as a data-quality problem was the result.
 Writing the validator before the data was the decision that made the rest
 possible. Every coverage number in this README is a count of rows that survived
 a check written before anyone knew what the data would look like, which is the
-only reason I am willing to put 4.3% in a table and defend it. Had I collected
+only reason I am willing to put 4.2% in a table and defend it. Had I collected
 first, the pressure to accept "Reuters, April 2024" as a source in order to fill
 a row would have been considerable, and the headline number would have been
 quietly wrong.

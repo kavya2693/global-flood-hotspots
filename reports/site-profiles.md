@@ -213,7 +213,9 @@ Evidence tiers: **V1** satellite-derived extent or official gauge record; **V2**
 |---|---|---|---|---|---|---|---|---|
 | pak_sindh_2010 | 2010-07-26 to 2010-09-30 |  |  |  | [37,280](https://earthobservatory.nasa.gov/images/50018/flood-extent-in-pakistan) | satellite/remote-sensing-derived flood-inundation extent, all of Pakistan (not Sindh-specific) | rainfall | 1,985 |
 | pak_sindh_2011 | 2011-08-11 to 2011-09-14 |  | [129.0](https://en.wikipedia.org/wiki/2011_Sindh_floods) `V3` | Mithi | [12,988](https://en.wikipedia.org/wiki/2011_Sindh_floods) | sum of per-district figures reported as "area affected (km2)" for the six worst-hit of 23 inundated Sindh districts (Badin 3820.39, Sanghar 2494.18, Dadu 1887.57, Mirpur Khas 1836.26, Shahdadkot 1597.50, Jacobabad 1352.32 km2), said to represent 61% of total inundated area; source does not make explicit whether these are inundated extents or full administrative district areas | rainfall | 434 |
-| pak_sindh_2022 | 2022-06-14 to 2022-10-31 |  |  |  | [25,000](https://reliefweb.int/report/pakistan/2022-pakistan-floods-assessment-crop-losses-sindh-province-using-satellite-data) | Sentinel-1 satellite-derived flooded-cropland/land assessment specific to Sindh province, "over 18% of Sindh's total area" (2.5 million hectares) | rainfall | 799 |
+| pak_sindh_2012 | 2012-09-03 to 2012-09-12 |  |  |  | not published |  | rainfall |  |
+| pak_sindh_2020karachi | 2020-08-24 to 2020-08-27 | [22.4](https://www.dawn.com/news/1576736) `V3` | [48.4](https://www.dawn.com/news/1576736) `V3` | PAF Faisal Base, Karachi | not published |  | rainfall | 41 |
+| pak_sindh_2022 | 2022-06-14 to 2022-10-31 |  | [122.8](https://en.wikipedia.org/wiki/List_of_extreme_weather_records_in_Pakistan) `V3` |  | [25,000](https://reliefweb.int/report/pakistan/2022-pakistan-floods-assessment-crop-losses-sindh-province-using-satellite-data) | Sentinel-1 satellite-derived flooded-cropland/land assessment specific to Sindh province, "over 18% of Sindh's total area" (2.5 million hectares) | rainfall | 799 |
 
 ## Middle Yangtze, Wuhan and Poyang, China
 
@@ -230,5 +232,5 @@ Evidence tiers: **V1** satellite-derived extent or official gauge record; **V2**
 | Event | Dates | Peak 24h rain (cm) | Event total (cm) | Station | Inundated area (km²) | Area method | Driver | Deaths |
 |---|---|---|---|---|---|---|---|---|
 | chn_yangtze_2016 | 2016-07-01 to 2016-07-06 |  | [57.0](https://en.wikipedia.org/wiki/2016_China_floods) `V3` | Wuhan (citywide) | not published |  | rainfall | 27 |
-| chn_yangtze_2020 | 2020-06-01 to 2020-08-22 |  |  |  | not published |  | rainfall | 14 |
+| chn_yangtze_2020 | 2020-06-01 to 2020-08-22 |  |  |  | [4,936](https://www.sciencedirect.com/science/article/pii/S2589004223011732) | satellite/remote-sensing-derived flood extent, "middle and lower Yangtze River Plain" (MLYP) total, Jul-Aug 2020; a separate figure in the same source states Poyang Lake's own flood area exceeded 3,000 km2 from July to early October 2020 (not used as the cell value since MLYP total is the more precisely dated figure) | rainfall | 14 |
 | chn_yangtze_2024_dongting | 2024-07-05 to 2024-07-08 |  |  |  | [48.0](https://www.globaltimes.cn/page/202407/1315657.shtml) | direct measurement of inundated area behind the breached Dongting Lake dyke (Tuanzhou area), average water depth ~5m, per Chinese state/local media reporting | levee_failure | 0 |

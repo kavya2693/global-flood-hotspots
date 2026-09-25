@@ -12,8 +12,10 @@ exclusion is visible rather than silent.
 | pak_sindh_2010 | pak_sindh | 2010-07-26 | no sourced 24h rainfall |
 | pak_sindh_2011 | pak_sindh | 2011-08-11 | no sourced 24h rainfall; area is administrative, not inundated |
 | pak_sindh_2022 | pak_sindh | 2022-06-14 | no sourced 24h rainfall |
+| pak_sindh_2012 | pak_sindh | 2012-09-03 | no sourced inundated area; no sourced 24h rainfall |
+| pak_sindh_2020karachi | pak_sindh | 2020-08-24 | no sourced inundated area |
 | chn_yangtze_2016 | chn_yangtze | 2016-07-01 | no sourced inundated area; no sourced 24h rainfall |
-| chn_yangtze_2020 | chn_yangtze | 2020-06-01 | no sourced inundated area; no sourced 24h rainfall |
+| chn_yangtze_2020 | chn_yangtze | 2020-06-01 | no sourced 24h rainfall |
 | chn_yangtze_2024_dongting | chn_yangtze | 2024-07-05 | no sourced 24h rainfall; extent driven by levee_failure |
 | ind_mumbai_2005 | ind_mumbai | 2005-07-26 | no sourced inundated area |
 | ind_mumbai_2017 | ind_mumbai | 2017-08-29 | no sourced inundated area |
