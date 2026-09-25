@@ -1,21 +1,21 @@
 # Checklist
 
 - [x] Idea, target role and distinct skill recorded
-- [ ] 8+ comparable repos surveyed
-- [ ] Gate 1 closed
+- [x] 8+ comparable repos surveyed
+- [x] Gate 1 closed
 - [x] ADR-0001 written
 - [x] Data contract defined
-- [ ] Dataset reproducible from one command
+- [x] Dataset reproducible from one command
 - [x] Core module implemented
-- [ ] Tests pass locally, output captured
+- [x] Tests pass locally, output captured
 - [ ] Lint and format clean
-- [ ] One-command end-to-end run verified on this machine
-- [ ] Gate 2 closed
+- [x] One-command end-to-end run verified on this machine
+- [x] Gate 2 closed
 - [ ] Dockerfile builds and runs
 - [ ] CI workflow green on GitHub
 - [x] .env.example present, no real values
 - [ ] prepush-scan.sh passes
-- [ ] 10+ incremental commits
+- [x] 10+ incremental commits
 - [ ] Public repo created, pushed, remote HEAD == local HEAD
 - [ ] Root README index updated
 
