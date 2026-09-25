@@ -7,7 +7,7 @@ from what the loaders expect.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 # Evidence tiers, strongest first. A figure carrying no tier is not a figure.
 TIERS = ("V1", "V2", "V3", "I")

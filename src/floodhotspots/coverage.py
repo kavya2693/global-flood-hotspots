@@ -143,7 +143,7 @@ URBAN_PLUVIAL = {"ind_mumbai", "idn_jakarta", "are_dubai", "are_fujairah", "deu_
 
 
 def _site_ids_in_order(frame: pd.DataFrame, sites: pd.DataFrame) -> list[str]:
-    lookup = dict(zip(sites["site_name"], sites["site_id"]))
+    lookup = dict(zip(sites["site_name"], sites["site_id"], strict=True))
     return [lookup[name] for name in frame["site"]]
 
 

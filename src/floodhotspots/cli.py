@@ -11,8 +11,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import features as feat
 from . import coverage, io, model, report
+from . import features as feat
 from .validate import validate
 
 ROOT = Path(__file__).resolve().parents[2]

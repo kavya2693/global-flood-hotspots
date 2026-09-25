@@ -40,8 +40,8 @@ def main() -> int:
     require_credentials()
     try:
         import cdsapi
-    except ImportError:
-        raise SystemExit("pip install cdsapi to use this script")
+    except ImportError as missing:
+        raise SystemExit("pip install cdsapi to use this script") from missing
 
     sites, events = io.load()
     client = cdsapi.Client()

@@ -18,6 +18,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
+from scipy.stats import spearmanr
 from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.impute import SimpleImputer
@@ -25,7 +26,6 @@ from sklearn.linear_model import Ridge
 from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from scipy.stats import spearmanr
 
 from .features import EXPOSURE_FEATURES, NUMERIC_FEATURES, RAINFALL_FEATURES, TARGET
 

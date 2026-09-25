@@ -74,7 +74,7 @@ Evidence tiers: **V1** satellite-derived extent or official gauge record; **V2**
 
 **Where it floods first.** Lokoja town and the immediate confluence floodplain in Kogi State
 
-**Exposure.** [791,000 people](https://www.macrotrends.net/global-metrics/cities/206383/lokoja/population) over a nan km² catchment.
+**Exposure.** [791,000 people](https://www.macrotrends.net/global-metrics/cities/206383/lokoja/population) over a an unsourced catchment area catchment.
 
 | Event | Dates | Peak 24h rain (cm) | Event total (cm) | Station | Inundated area (km²) | Area method | Driver | Deaths |
 |---|---|---|---|---|---|---|---|---|

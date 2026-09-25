@@ -11,7 +11,6 @@ from pathlib import Path
 
 import pandas as pd
 
-from .features import TARGET
 from .schema import TIER_MEANING
 
 
@@ -59,6 +58,18 @@ def _area(value) -> str:
     return f"{number:,.1f}" if number < 100 else f"{number:,.0f}"
 
 
+def _exposure(site) -> str:
+    people = pd.to_numeric(site["population"], errors="coerce")
+    catchment = pd.to_numeric(site["catchment_area_km2"], errors="coerce")
+    headcount = (
+        _link(f"{int(people):,} people", site.get("population_source_url"))
+        if not pd.isna(people)
+        else "population not sourced"
+    )
+    area = f"{catchment:,.0f} km²" if not pd.isna(catchment) else "an unsourced catchment area"
+    return f"**Exposure.** {headcount} over a {area} catchment."
+
+
 def _tiered(value, url, tier) -> str:
     """A figure, its source and its evidence tier travel together or not at all."""
     text = _link(mm_to_cm(value), url)
@@ -94,8 +105,7 @@ def site_profiles(sites: pd.DataFrame, frame: pd.DataFrame) -> str:
             "",
             f"**Where it floods first.** {site['hotspot_subareas']}",
             "",
-            f"**Exposure.** {_link(f'{int(pd.to_numeric(site['population'], errors='coerce')):,} people', site.get('population_source_url'))} "
-            f"over a {pd.to_numeric(site['catchment_area_km2'], errors='coerce'):,.0f} km² catchment.",
+            _exposure(site),
             "",
             "| Event | Dates | Peak 24h rain (cm) | Event total (cm) | Station | "
             "Inundated area (km²) | Area method | Driver | Deaths |",
